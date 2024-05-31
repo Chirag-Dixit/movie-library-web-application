@@ -64,7 +64,7 @@ const SignUp = () => {
             color: "grey",
           }}
         >
-          Already Have an Account? <Link to="/login">Login</Link>
+          Already Have an Account? <Link to="/">Login</Link>
         </p>
         <Stack direction="column" spacing={2} mb={2} alignItems="center">
           <TextField

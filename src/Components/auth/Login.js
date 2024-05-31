@@ -15,8 +15,12 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../../firebase";
+import LoginLeft from "../LoginLeft";
+import { connect } from "react-redux";
+import { login } from "../../redux/login/loginAction";
 
-const Login = () => {
+const Login = (props) => {
+  const {login} = props
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +31,10 @@ const Login = () => {
     try{
       e.preventDefault();
       const data = await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      const displayName = data.user.displayName;
+      const emailAdd = data.user.email;
+      login({ displayName, emailAdd });
+      navigate("/homepage");
     }catch(e){
       console.log(e);
       setError(true);
@@ -39,105 +46,125 @@ const Login = () => {
   };
 
   return (
-    <Box
-      textAlign="center"
-      justifyContent="center"
-      mt={10}
-      component="form"
-      onSubmit={signIn}
-    >
-      <h1
-        style={{
-          color: "grey",
-        }}
+    <Stack direction={'row'} display='flex' justifyContent={'space-around'} alignItems={'center'}>
+      <div style={{
+        width: '10%'
+      }}>
+        <LoginLeft />
+      </div>
+
+      <Box
+        textAlign="center"
+        justifyContent="center"
+        mt={10}
+        component="form"
+        onSubmit={signIn}
       >
-        Library of Movies
-      </h1>
-      <Box textAlign="center" mt={5}>
-        <p
-          style={{
-            fontSize: "25px",
-          }}
-        >
-          Login to Existing Account
-        </p>
-        <p
+        <h1
           style={{
             color: "grey",
           }}
         >
-          Don't have an account yet? <Link to="/signup">Sign Up</Link>
-        </p>
-        <Stack direction="column" spacing={2} mb={2} alignItems="center">
-          <TextField
-            type="email"
-            id="email"
-            label="Email Address"
-            variant="outlined"
-            required
-            size="small"
-            sx={{
-              width: "350px",
-            }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-          />
-
-          <TextField
-            type={showPassword ? "text" : "password"}
-            id="password"
-            label="Password"
-            variant="outlined"
-            required
-            size="small"
-            sx={{
-              width: "350px",
-            }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {!error ? (
-            ""
-          ) : (
-            <Stack direction="row" spacing={1}>
-              <ErrorOutlineIcon />
-              <Typography variant="subtitle1" color="red">
-                Invalid Credentials / User Does not Exist
-              </Typography>
-            </Stack>
-          )}
-
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            sx={{
-              width: "350px",
+          Library of Movies
+        </h1>
+        <Box textAlign="center" mt={5}>
+          <p
+            style={{
+              fontSize: "25px",
             }}
           >
-            Login
-          </Button>
-        </Stack>
+            Login to Existing Account
+          </p>
+          <p
+            style={{
+              color: "grey",
+            }}
+          >
+            Don't have an account yet? <Link to="/signup">Sign Up</Link>
+          </p>
+          <Stack direction="column" spacing={2} mb={2} alignItems="center">
+            <TextField
+              type="email"
+              id="email"
+              label="Email Address"
+              variant="outlined"
+              required
+              size="small"
+              sx={{
+                width: "350px",
+              }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoFocus
+            />
 
-        <Link to="/">&lt;&lt;Back to Home Page</Link>
+            <TextField
+              type={showPassword ? "text" : "password"}
+              id="password"
+              label="Password"
+              variant="outlined"
+              required
+              size="small"
+              sx={{
+                width: "350px",
+              }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {!error ? (
+              ""
+            ) : (
+              <Stack direction="row" spacing={1}>
+                <ErrorOutlineIcon />
+                <Typography variant="subtitle1" color="red">
+                  Invalid Credentials / User Does not Exist
+                </Typography>
+              </Stack>
+            )}
+
+            <Button
+              type="submit"
+              variant="contained"
+              size="small"
+              sx={{
+                width: "350px",
+              }}
+            >
+              Login
+            </Button>
+          </Stack>
+
+          <Link to="/">&lt;&lt;Back to Home Page</Link>
+        </Box>
       </Box>
-    </Box>
+    </Stack>
   );
 };
 
-export default Login;
+const mapStateToProps = state =>{
+  return{
+    isLoggedIn: state.login.isLoggedIn,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (data) => dispatch(login(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

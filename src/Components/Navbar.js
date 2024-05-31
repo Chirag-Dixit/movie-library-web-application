@@ -7,35 +7,50 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import { connect } from "react-redux";
+import { logout, setSearch } from "../redux";
 
-const Navbar = () => {
-  const [search, setSearch] = useState("");
+const Navbar = (props) => {
+  const { isLoggedIn, userData, logout, setSearch } = props;
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleChange = () => {
-
-  }
+  const [searchVal, setSearchVal] = useState('')
 
   const handleSearch = () => {
+    setSearch(searchVal);
+    navigate('/search')
+  };
 
-  }
+  const handleNavigate = () => {
+    navigate("/homepage");
+  };
+
+  const handleLogout = () => {
+    logout();
+    userSignOut();
+    navigate("/");
+  };
+
+  const userSignOut = async () => {
+    await signOut(auth);
+  };
 
   return (
     <Stack
       //   direction={width < 600 ? "column" : "row"}
-      direction={'row'}
-      alignItems={'center'}
-      justifyContent={'center'}
+      direction={"row"}
+      alignItems={"center"}
+      justifyContent={"center"}
     >
       <Tooltip title="Library for Movies!">
         <Button
           sx={{
             color: "black",
           }}
+          onClick={handleNavigate}
         >
-            <LocalMoviesIcon />
+          <LocalMoviesIcon />
         </Button>
       </Tooltip>
 
@@ -46,31 +61,42 @@ const Navbar = () => {
         variant="outlined"
         size="small"
         autoComplete="off"
-        value={search}
-        onChange={handleChange}
-        disabled={location.pathname !== "/"}
+        value={searchVal}
+        onChange={(e)=>setSearchVal(e.target.value)}
         sx={{ flexGrow: 1, maxWidth: 300 }}
       />
 
-      <Button onClick={handleSearch}>
-        Search
-      </Button>
+      <Button onClick={handleSearch}>Search</Button>
 
-      <Stack direction="row" spacing={0} alignItems="center">
-        <Link to="/">
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Tooltip title={userData?.displayName}>
           <Button>
-            <HomeIcon
+            <MoodIcon
               fontSize="medium"
               sx={{
                 color: "black",
               }}
             />
           </Button>
-        </Link>
-
+        </Tooltip>
+        <Button onClick={handleLogout}>Logout</Button>
       </Stack>
     </Stack>
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.login.isLoggedIn,
+    userData: state.login.userData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+    setSearch: (data) => dispatch(setSearch(data)),   
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
