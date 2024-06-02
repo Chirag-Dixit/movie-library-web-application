@@ -18,8 +18,6 @@ const WatchListMovies = (props) => {
     getData();
   }, []);
 
-  console.log(val)
-
   const movies = val.map((element, index) => {
     return <MovieCard data={element} key={index} />;
   });

@@ -14,28 +14,31 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import { auth } from "../../firebase";
+import { auth, database } from "../../firebase";
 import LoginLeft from "../LoginLeft";
 import { connect } from "react-redux";
 import { login } from "../../redux/login/loginAction";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const Login = (props) => {
-  const {login} = props
+  const { login } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const value = collection(database, "Users");
 
   const signIn = async (e) => {
-    try{
+    try {
       e.preventDefault();
       const data = await signInWithEmailAndPassword(auth, email, password);
       const displayName = data.user.displayName;
       const emailAdd = data.user.email;
       login({ displayName, emailAdd });
+      
       navigate("/homepage");
-    }catch(e){
+    } catch (e) {
       console.log(e);
       setError(true);
     }
@@ -46,10 +49,17 @@ const Login = (props) => {
   };
 
   return (
-    <Stack direction={'row'} display='flex' justifyContent={'space-around'} alignItems={'center'}>
-      <div style={{
-        width: '10%'
-      }}>
+    <Stack
+      direction={"row"}
+      display="flex"
+      justifyContent={"space-around"}
+      alignItems={"center"}
+    >
+      <div
+        style={{
+          width: "10%",
+        }}
+      >
         <LoginLeft />
       </div>
 
@@ -118,7 +128,11 @@ const Login = (props) => {
                       onClick={handleClickShowPassword}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      {showPassword ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -155,16 +169,16 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = state =>{
-  return{
+const mapStateToProps = (state) => {
+  return {
     isLoggedIn: state.login.isLoggedIn,
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     login: (data) => dispatch(login(data)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,0 +1,2 @@
+export const LIST_ITEMS_UPDATE = 'LIST_ITEMS'
+export const SET_LIST_ITEMS = 'SET_LIST_ITEMS'

@@ -9,37 +9,41 @@ const NameCard = (props) => {
 
   const handleClick = () => {
     const obj = {
-      name: data.Title,
-      id: data.id,
+      name: data?.Title,
+      id: data?.Title,
     };
     setPlaylist(obj);
-    navigate(`/playlist/${data.Title}`);
+    navigate(`/playlist/${data?.Title}`);
   };
 
   return (
-    <button
-      style={{
-        minHeight: "250px",
-        minWidth: "250px",
-        border: "1px solid gainsboro",
-        textAlign: "center",
-        alignItems: "center",
-        padding: "10px",
-        display: "flex",
-        justifyContent: "center",
-        cursor: "pointer",
-      }}
-      onClick={handleClick}
-    >
-      <Link
-        style={{
-          textDecoration: "none",
-          color: "black",
-        }}
-      >
-        <h4>{data.Title}</h4>
-      </Link>
-    </button>
+    <>
+      {data?.Title && (
+        <button
+          style={{
+            minHeight: "250px",
+            minWidth: "250px",
+            border: "1px solid gainsboro",
+            textAlign: "center",
+            alignItems: "center",
+            padding: "10px",
+            display: "flex",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+          onClick={handleClick}
+        >
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "black",
+            }}
+          >
+            <h4>{data?.Title}</h4>
+          </Link>
+        </button>
+      )}
+    </>
   );
 };
 

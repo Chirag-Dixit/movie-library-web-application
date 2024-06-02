@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 const Movies = (props) => {
   const { parentId, playlistId, playlistName } = props;
+  console.log(playlistId)
   const value = collection(
     database,
     "Users",
@@ -16,6 +17,7 @@ const Movies = (props) => {
     "Movies"
   );
   const [val, setVal] = useState([]);
+
 
   useEffect(() => {
     const getData = async () => {

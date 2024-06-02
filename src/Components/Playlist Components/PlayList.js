@@ -4,34 +4,53 @@ import { database } from "../../firebase";
 import Movies from "./Movies";
 import { Stack } from "@mui/material";
 import NameCard from "./NameCard";
+import { setFunction, setListItems } from "../../redux/function/funcAction";
+import { connect } from "react-redux";
+import Loading from '../Loading'
 
 const PlayList = (props) => {
-  const { data } = props;
+  const { data, setListItems, listItems } = props;
   const value = collection(database, "Users", data?.id, "Playlists");
   const [val, setVal] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getData = async () => {
+      setLoading(true)
       const dbVal = await getDocs(value);
       setVal(dbVal.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false)
     };
 
     getData();
   }, []);
 
-  const list = val.map((element, index) => {
-    return <Movies parentId={data?.id} data={element} key={index} />;
+  // console.log(val)
+  useEffect(() => {
+    setListItems(val);
+  }, [val]);
+
+  const listOfItems = listItems.map((element, index) => {
+    return <NameCard data={element} key={index} />;
   });
 
-  console.log(list)
-
-  const list_names = val.map((element, index)=>{
-    return <NameCard data={element} key={index}/>
-  })
-
-  console.log(list_names)
-
-  return <Stack>{list_names}</Stack>;
+  return (
+    <Stack direction={"row"} spacing={2}>
+      {loading && listOfItems ? <Loading /> : listOfItems}
+    </Stack>
+  );
 };
 
-export default PlayList;
+const mapStateToProps = (state) => {
+  return {
+    listItems: state.listItem.listItems,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setListItems: (data) => dispatch(setListItems(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayList);

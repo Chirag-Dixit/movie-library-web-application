@@ -4,16 +4,26 @@ import AddIcon from "@mui/icons-material/Add";
 import { addDoc, collection } from "firebase/firestore";
 import { database } from "../../firebase";
 import { connect } from "react-redux";
+import { addNewPlaylist } from "../../utils/addNewPlaylist";
+import { updateListItems } from "../../redux";
 
 const CreateNew = (props) => {
-  const { parentId, playlistId } = props;
+  const { parentId, playlistId, updateListItems } = props;
+  const [playlistTitle, setPlaylistTitle] = useState('')
   // const value = collection(database, "Users", parentId, "Playlists");
   const [clicked, setClicked] = useState(false);
 
   const handleSubmit = () => {
-    // addDoc(collection(value, playlistId, "Movies"), {
-    //   Title: "",
-    // });
+    if(playlistTitle.trim()){
+      addNewPlaylist(parentId, playlistTitle)
+      setPlaylistTitle('')
+      setClicked(!clicked)
+      updateListItems({
+        Title: playlistTitle
+      })
+    }else{
+      alert('please enter a playlist title.')
+    }
   };
 
   const handleClick = () => {
@@ -34,7 +44,7 @@ const CreateNew = (props) => {
             padding: '8px'
           }}
         >
-          <TextField />
+          <TextField value={playlistTitle} onChange={(e)=>setPlaylistTitle(e.target.value)}/>
           <Button onClick={handleSubmit}>Make new Playlist</Button>
           <Button onClick={handleClick}>Cancel</Button>
         </Stack>
@@ -68,4 +78,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(CreateNew);
+const mapDispatchToProps = (dispatch) => {
+  return {updateListItems: data=>dispatch(updateListItems(data))}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNew);

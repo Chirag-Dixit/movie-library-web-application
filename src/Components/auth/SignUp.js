@@ -12,7 +12,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -25,12 +25,19 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(false);
+  const value = collection(database, "Users");
 
   const signUp = async (e) => {
     try {
       e.preventDefault();
       let data = await createUserWithEmailAndPassword(auth, email, password);
+      const displayName = data.user.displayName;
       await updateProfile(auth.currentUser, { displayName: username });
+      const userRef = await addDoc(value, { Username: displayName });
+      const playlistsRef = doc(collection(userRef, "Playlists"));
+      const watchlistsRef = doc(collection(userRef, "Watchlists"));
+      await setDoc(playlistsRef, {});
+      await setDoc(watchlistsRef, {});
       navigate("/");
     } catch (e) {
       setError(true);
