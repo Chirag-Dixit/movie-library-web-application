@@ -29,6 +29,10 @@ Login along with signup capabilities are implemented to provide the user with a 
 |               | - Firestore: Firebase's flexible, scalable database for mobile, web, and server development.     | Utilized Firestore as the database to store and sync app data in real-time across clients.          |
 | Netlify       | A powerful platform for deploying modern web projects.                                             | Deployed the application on Netlify for hosting, continuous integration, and continuous deployment. |
 
+# Deployment
+
+The Project is deployed using Netlify. This is the live link of the website: [Click Here](https://mv-library.netlify.app/) or visit the domain https://mv-library.netlify.app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
