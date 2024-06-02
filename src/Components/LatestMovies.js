@@ -11,7 +11,7 @@ const LatestMovies = () => {
   useEffect(() => {
     const getData = async () => {
       const response = await fetch(
-        "http://www.omdbapi.com/?apikey=790948c6&s=2023&type=movie"
+        "https://www.omdbapi.com/?apikey=790948c6&s=2023&type=movie"
       );
       const data = await response.json();
       console.log(data);

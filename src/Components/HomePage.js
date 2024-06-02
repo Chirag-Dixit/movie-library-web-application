@@ -10,8 +10,8 @@ import addMovieToPlaylist from "../utils/addMovieToPlaylist";
 import LatestMovies from "./LatestMovies";
 
 const HomePage = (props) => {
-  //OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=790948c6
-  //http://www.omdbapi.com/?s=[movieName]&apikey=790948c6
+  //OMDb API: https://www.omdbapi.com/?i=tt3896198&apikey=790948c6
+  //https://www.omdbapi.com/?s=[movieName]&apikey=790948c6
 
   const { showPopup, setPopup, listItems, parentId, movieData, userData } =
     props;
