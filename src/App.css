@@ -1,8 +1,21 @@
 .App {
-  margin: 16px;
   text-align: center;
 }
 
+.login{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* opacity: 0.5; */
+  z-index: -1;
+}
+
+.signup{
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./images/image2.jpg');
+  overflow: hidden;
+}
 
 .popup {
   position: fixed;

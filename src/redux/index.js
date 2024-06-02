@@ -5,3 +5,4 @@ export { logout } from "./login/loginAction";
 export { setSearch } from "./Search/searchAction";
 export { setPopup } from './popup/popupAction'
 export { setMovieData } from './movieData/movieDataAction'
+export { setPageNumber } from './pageNumber/pageAction'

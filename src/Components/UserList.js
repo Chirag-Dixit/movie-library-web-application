@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MovieCard from "./MovieCard";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import CreateNew from "./Playlist Components/CreateNew";
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "../firebase";
@@ -9,10 +9,11 @@ import { connect } from "react-redux";
 import { setParent } from "../redux/collectionIDs/setIdAction";
 
 const UserList = (props) => {
-  const {userData, setParent} = props
+  const { userData, setParent } = props;
   const value = collection(database, "Users");
   const [val, setVal] = useState([]);
   const [val2, setVal2] = useState([]);
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -23,39 +24,92 @@ const UserList = (props) => {
     getData();
   }, []);
 
-
   const movies = val.map((element, index) => {
-    if(userData?.displayName == element.Username){
-      setParent(element.id)
-      return <PlayList data={element} key={index}/>
+    if (userData?.displayName == element.Username) {
+      setParent(element.id);
+      return <PlayList data={element} key={index} />;
     }
   });
 
+  const scrollLeft = () => {
+    scrollContainerRef.current.scrollBy({
+      left: -400, // Adjust the value as needed
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    scrollContainerRef.current.scrollBy({
+      left: 400, // Adjust the value as needed
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <Stack
-      direction={"row"}
-      spacing={2}
-      sx={{
-        overflow: "auto",
-      }}
-    >
-      <CreateNew />
-      {/* yaha par playlist aayengi */}
-      {movies}
+    <Stack textAlign={"left"} spacing={2}>
+      <Stack direction={"row"} spacing={4}>
+        <Typography
+          variant="h5"
+          sx={{
+            textDecoration: "underline",
+          }}
+        >
+          {userData.displayName}'s Playlist of Movies
+        </Typography>
+        <button
+          style={{
+            border: "none",
+            backgroundColor: "white",
+            cursor: "pointer",
+            borderRadius: "30%",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+          onClick={scrollLeft}
+        >
+          &#9664;
+        </button>
+        <button
+          style={{
+            border: "none",
+            backgroundColor: "white",
+            cursor: "pointer",
+            borderRadius: "30%",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+          onClick={scrollRight}
+        >
+          &#9654;
+        </button>
+      </Stack>
+      <Stack
+        ref={scrollContainerRef}
+        direction={"row"}
+        spacing={2}
+        sx={{
+          overflow: "hidden",
+          scrollBehavior: "smooth",
+        }}
+      >
+        <CreateNew />
+        {/* yaha par playlist aayengi */}
+        {movies}
+      </Stack>
     </Stack>
   );
 };
 
-const mapStateToProps = state =>{
-  return{
+const mapStateToProps = (state) => {
+  return {
     userData: state.login.userData,
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch =>{
-  return{
+const mapDispatchToProps = (dispatch) => {
+  return {
     setParent: (data) => dispatch(setParent(data)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

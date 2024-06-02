@@ -19,6 +19,7 @@ import LoginLeft from "../LoginLeft";
 import { connect } from "react-redux";
 import { login } from "../../redux/login/loginAction";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import Image from '../../images/image2.jpg'
 
 const Login = (props) => {
   const { login } = props;
@@ -54,14 +55,11 @@ const Login = (props) => {
       display="flex"
       justifyContent={"space-around"}
       alignItems={"center"}
+      className="login"
+      sx={{
+        backgroundImage: `url(${Image})`
+      }}
     >
-      <div
-        style={{
-          width: "10%",
-        }}
-      >
-        <LoginLeft />
-      </div>
 
       <Box
         textAlign="center"
@@ -69,13 +67,17 @@ const Login = (props) => {
         mt={10}
         component="form"
         onSubmit={signIn}
+        style={{
+          position: 'relative',
+          bottom: '50px',
+        }}
       >
         <h1
           style={{
             color: "grey",
           }}
         >
-          Library of Movies
+          Library for Movies
         </h1>
         <Box textAlign="center" mt={5}>
           <p
@@ -162,7 +164,6 @@ const Login = (props) => {
             </Button>
           </Stack>
 
-          <Link to="/">&lt;&lt;Back to Home Page</Link>
         </Box>
       </Box>
     </Stack>

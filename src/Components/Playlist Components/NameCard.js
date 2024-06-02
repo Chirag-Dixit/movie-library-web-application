@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setPlaylist } from "../../redux/collectionIDs/setIdAction";
 import { connect } from "react-redux";
+import LayersIcon from '@mui/icons-material/Layers';
 
 const NameCard = (props) => {
   const navigate = useNavigate();
@@ -26,10 +27,10 @@ const NameCard = (props) => {
             border: "1px solid gainsboro",
             textAlign: "center",
             alignItems: "center",
-            padding: "10px",
             display: "flex",
             justifyContent: "center",
             cursor: "pointer",
+            backgroundColor: 'whitesmoke',
           }}
           onClick={handleClick}
         >
@@ -39,7 +40,8 @@ const NameCard = (props) => {
               color: "black",
             }}
           >
-            <h4>{data?.Title}</h4>
+            <LayersIcon fontSize="large"/>
+            <h2>{data?.Title}</h2>
           </Link>
         </button>
       )}

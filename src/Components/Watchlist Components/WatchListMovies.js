@@ -5,7 +5,7 @@ import MovieCard from "../MovieCard";
 import { Stack } from "@mui/material";
 
 const WatchListMovies = (props) => {
-  const { data } = props;
+  const { data, inWatchlist } = props;
   const value = collection(database, "Users", data.id, "Watchlist");
   const [val, setVal] = useState([]);
 

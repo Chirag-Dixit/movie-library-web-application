@@ -9,26 +9,42 @@ import {
   Typography,
   tooltipClasses,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import AddIcon from "@mui/icons-material/Add";
 import { connect } from "react-redux";
-import { setMovieData, setPopup } from '../redux'
+import { setMovieData, setPopup } from "../redux";
+import addMovieToWatchlist from "../utils/addMovieToWatchlist";
 
 const MovieCard = (props) => {
-  const { data, setPopup, setMovieData } = props;
+  const {
+    data,
+    setPopup,
+    setMovieData,
+    parentId,
+    movieData,
+    inWatchlist,
+    inPlaylist,
+  } = props;
   const obj = {
     Title: data.Title,
     Year: data.Year,
     Poster: data.Poster,
-  }
+  };
+
+  const [clicked, setClicked] = useState(false)
+
+  const handleWatchlistAdd = () => {
+    addMovieToWatchlist(parentId, obj);
+    setClicked(true)
+  };
 
   const handleClick = () => {
-    setMovieData(obj)
-    setPopup()
-  }
+    setMovieData(obj);
+    setPopup();
+  };
 
   return (
     <>
@@ -50,11 +66,6 @@ const MovieCard = (props) => {
             title={data?.Title}
             titleTypographyProps={{ noWrap: true }}
             subheader={data?.Year}
-            action={
-              <IconButton>
-                <BookmarkAddIcon />
-              </IconButton>
-            }
           />
           <Tooltip
             title={data?.Title}
@@ -94,18 +105,22 @@ const MovieCard = (props) => {
               justifyContent: "space-between",
             }}
           >
-            <Tooltip title="add to favourites">
-              <IconButton aria-label="add to favorites">
+            <Tooltip title="Add to Watchlist">
+              <Button onClick={handleWatchlistAdd} sx={{
+                color: clicked ? "red" : "lightblue"
+              }}>
                 <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="add to playlist">
-              <Button onClick={handleClick}>
-                <IconButton>
-                  <AddIcon />
-                </IconButton>
               </Button>
             </Tooltip>
+            {!inPlaylist && (
+              <Tooltip title="add to playlist">
+                <Button onClick={handleClick}>
+                  <IconButton>
+                    <AddIcon />
+                  </IconButton>
+                </Button>
+              </Tooltip>
+            )}
           </CardActions>
         </Card>
       )}
@@ -113,11 +128,18 @@ const MovieCard = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return{
-    setPopup: () => dispatch(setPopup()),
-    setMovieData: (data) => dispatch(setMovieData(data))
-  }
-}
+const mapStateToProps = (state) => {
+  return {
+    parentId: state.setId.parentId,
+    movieData: state.movieData.data,
+  };
+};
 
-export default connect(null, mapDispatchToProps)(MovieCard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPopup: () => dispatch(setPopup()),
+    setMovieData: (data) => dispatch(setMovieData(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);

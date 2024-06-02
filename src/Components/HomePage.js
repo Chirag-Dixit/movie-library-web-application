@@ -7,73 +7,58 @@ import WatchList from "./WatchList";
 import { connect } from "react-redux";
 import { setPopup } from "../redux";
 import addMovieToPlaylist from "../utils/addMovieToPlaylist";
+import LatestMovies from "./LatestMovies";
 
 const HomePage = (props) => {
   //OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=790948c6
   //http://www.omdbapi.com/?s=[movieName]&apikey=790948c6
 
-  const { showPopup, setPopup, listItems, parentId, movieData } = props;
-
-  // console.log(movieData)
+  const { showPopup, setPopup, listItems, parentId, movieData, userData } =
+    props;
 
   const togglePopup = () => {
     setPopup();
   };
 
   const handleClick = (data) => {
-    addMovieToPlaylist(parentId, data.Title, movieData)
-    setPopup()
-    alert(`Movie ${movieData.Title} successfully added to playlist ${data.Title}`)
-  }
+    addMovieToPlaylist(parentId, data.Title, movieData);
+    setPopup();
+    alert(
+      `Movie ${movieData.Title} successfully added to playlist ${data.Title}`
+    );
+  };
 
   const playlistNames = listItems.map((element, index) => {
-    return (
-      <button
-        style={{
-          // border: 'none',
-          margin: '10px',
-          cursor: 'pointer'
-        }}
-
-        key={index}
-        onClick={() => handleClick(element)}
-      >
-        {element.Title}
-      </button>
-    );
+    if (element.Title)
+      return (
+        <Button
+          variant="outlined"
+          sx={{
+            // border: 'none',
+            margin: "10px",
+            cursor: "pointer",
+            color: "black",
+            "&:hover": {
+              backgroundColor: "blueviolet",
+            },
+          }}
+          key={index}
+          onClick={() => handleClick(element)}
+        >
+          {element.Title}
+        </Button>
+      );
   });
 
   return (
-    <Stack spacing={5}>
-      <Stack textAlign={"left"} spacing={2}>
-        <Typography
-          variant="h5"
-          sx={{
-            textDecoration: "underline",
-          }}
-        >
-          Your(User's) Playlist of Movies
-        </Typography>
-        <UserList />
-      </Stack>
+    <Stack spacing={5} m={2}>
+      <UserList />
 
-      <Stack textAlign={"left"} spacing={2}>
-        <Typography
-          variant="h5"
-          sx={{
-            textDecoration: "underline",
-          }}
-        >
-          Your Watchlist
-        </Typography>
-        <WatchList />
-      </Stack>
+      <WatchList />
 
       <div className={`App`}>
         {showPopup && <Popup items={playlistNames} closePopup={togglePopup} />}
       </div>
-
-      {/* {playlistNames} */}
     </Stack>
   );
 };
@@ -83,23 +68,22 @@ const Popup = ({ closePopup, items }) => {
     closePopup();
   };
 
-  console.log(items);
   return (
     <div className="popup">
       <div className="popup-content">
+        <Typography variant="h6">Playlists:</Typography>
         {/* <h2>Popup Component</h2> */}
-        <div >
-          {items}
-        </div>
+        <div>{items}</div>
         {/* stack of names of playlist */}
-        <button
+        <Button
           onClick={handleClick}
-          style={{
+          sx={{
             marginTop: "16px",
           }}
+          variant="contained"
         >
           Cancel
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -111,6 +95,7 @@ const mapStateToProps = (state) => {
     listItems: state.listItem.listItems,
     parentId: state.setId.parentId,
     movieData: state.movieData.data,
+    userData: state.login.userData,
   };
 };
 

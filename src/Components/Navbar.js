@@ -10,16 +10,18 @@ import { useEffect, useState } from "react";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import { connect } from "react-redux";
 import { logout, setSearch } from "../redux";
+import { resetPageNumber } from "../redux/pageNumber/pageAction";
 
 const Navbar = (props) => {
-  const { isLoggedIn, userData, logout, setSearch } = props;
+  const { isLoggedIn, userData, logout, setSearch, resetPageNumber, currentPage } = props;
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchVal, setSearchVal] = useState('')
+  const [searchVal, setSearchVal] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = async() => {
+    resetPageNumber()
     setSearch(searchVal);
-    navigate('/search')
+    navigate("/search");
   };
 
   const handleNavigate = () => {
@@ -42,6 +44,8 @@ const Navbar = (props) => {
       direction={"row"}
       alignItems={"center"}
       justifyContent={"center"}
+      spacing={2}
+      mt={2}
     >
       <Tooltip title="Library for Movies!">
         <Button
@@ -50,23 +54,23 @@ const Navbar = (props) => {
           }}
           onClick={handleNavigate}
         >
-          <LocalMoviesIcon />
+         Home <LocalMoviesIcon />
         </Button>
       </Tooltip>
 
       <TextField
         className="searchBar"
         id="outlined-basic"
-        label="Search for posts..."
+        label="Search for movies..."
         variant="outlined"
         size="small"
         autoComplete="off"
         value={searchVal}
-        onChange={(e)=>setSearchVal(e.target.value)}
+        onChange={(e) => setSearchVal(e.target.value)}
         sx={{ flexGrow: 1, maxWidth: 300 }}
       />
 
-      <Button onClick={handleSearch}>Search</Button>
+      <Button variant="contained" onClick={handleSearch}>Search</Button>
 
       <Stack direction="row" spacing={1} alignItems="center">
         <Tooltip title={userData?.displayName}>
@@ -89,13 +93,15 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.login.isLoggedIn,
     userData: state.login.userData,
+    currentPage: state.pageNumber.currentPage
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
-    setSearch: (data) => dispatch(setSearch(data)),   
+    setSearch: (data) => dispatch(setSearch(data)),
+    resetPageNumber: () => dispatch(resetPageNumber())
   };
 };
 

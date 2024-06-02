@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const Movies = (props) => {
   const { parentId, playlistId, playlistName } = props;
-  console.log(playlistId)
+  console.log(playlistId);
   const value = collection(
     database,
     "Users",
@@ -17,7 +17,6 @@ const Movies = (props) => {
     "Movies"
   );
   const [val, setVal] = useState([]);
-
 
   useEffect(() => {
     const getData = async () => {
@@ -29,16 +28,33 @@ const Movies = (props) => {
   }, []);
 
   const list = val.map((element, index) => {
-    return <MovieCard data={element} key={index} />;
+    return <MovieCard inPlaylist={true} data={element} key={index} />;
   });
 
   return (
-    <Stack spacing={2} mt={5}>
-      <h3 style={{
-        textAlign: 'left',
-        textDecoration: 'underline'
-      }}>{playlistName}</h3>
-      <Stack direction={'row'} spacing={2}>
+    <Stack spacing={2} m={5}>
+      <h3
+        style={{
+          textAlign: "left",
+          textDecoration: "underline",
+          marginLeft: '16px'
+        }}
+
+      >
+        {playlistName}
+      </h3>
+      <Stack
+        direction={"row"}
+        spacing={2}
+        sx={{
+          width: "fit-content",
+          padding: "10px",
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 1fr)",
+          alignItems: "center",
+          gap: "30px",
+        }}
+      >
         {list}
       </Stack>
     </Stack>

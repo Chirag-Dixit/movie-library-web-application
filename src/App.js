@@ -12,7 +12,9 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="App">
+    <div
+      className="App"
+    >
       {location.pathname == "/" || location.pathname === "/signup" ? (
         ""
       ) : (
