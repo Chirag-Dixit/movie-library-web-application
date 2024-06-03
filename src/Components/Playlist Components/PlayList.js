@@ -1,10 +1,9 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { database } from "../../firebase";
-import Movies from "./Movies";
 import { Stack } from "@mui/material";
 import NameCard from "./NameCard";
-import { setFunction, setListItems } from "../../redux/function/funcAction";
+import { setListItems } from "../../redux/function/funcAction";
 import { connect } from "react-redux";
 import Loading from '../Loading'
 

@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 
 const LatestMovies = () => {
-  //make api call
-  //data recieved in form of object
-  //display data using map
   const [val, setVal] = useState([]);
 
   useEffect(() => {

@@ -1,21 +1,18 @@
 import React from "react";
-import { Button, Select, Stack, TextField, Tooltip, Zoom } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import MessageIcon from "@mui/icons-material/Message";
+import { Button, Stack, TextField, Tooltip } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import { connect } from "react-redux";
 import { logout, setSearch } from "../redux";
 import { resetPageNumber } from "../redux/pageNumber/pageAction";
 
 const Navbar = (props) => {
-  const { isLoggedIn, userData, logout, setSearch, resetPageNumber, currentPage } = props;
+  const {  userData, logout, setSearch, resetPageNumber } = props;
   const navigate = useNavigate();
-  const location = useLocation();
   const [searchVal, setSearchVal] = useState("");
 
   const handleSearch = async() => {

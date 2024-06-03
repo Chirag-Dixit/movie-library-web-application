@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import MovieCard from "./MovieCard";
 import { Stack, Typography } from "@mui/material";
 import CreateNew from "./Playlist Components/CreateNew";
 import { collection, getDocs } from "firebase/firestore";
@@ -12,7 +11,6 @@ const UserList = (props) => {
   const { userData, setParent } = props;
   const value = collection(database, "Users");
   const [val, setVal] = useState([]);
-  const [val2, setVal2] = useState([]);
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const UserList = (props) => {
   }, []);
 
   const movies = val.map((element, index) => {
-    if (userData?.displayName == element.Username) {
+    if (userData?.displayName === element.Username) {
       setParent(element.id);
       return <PlayList data={element} key={index} />;
     }
@@ -33,14 +31,14 @@ const UserList = (props) => {
 
   const scrollLeft = () => {
     scrollContainerRef.current.scrollBy({
-      left: -400, // Adjust the value as needed
+      left: -400,
       behavior: "smooth",
     });
   };
 
   const scrollRight = () => {
     scrollContainerRef.current.scrollBy({
-      left: 400, // Adjust the value as needed
+      left: 400,
       behavior: "smooth",
     });
   };
@@ -54,7 +52,7 @@ const UserList = (props) => {
             textDecoration: "underline",
           }}
         >
-          {userData.displayName}'s Playlist of Movies
+          {userData?.displayName}'s Playlist of Movies
         </Typography>
         <button
           style={{
@@ -93,7 +91,6 @@ const UserList = (props) => {
         }}
       >
         <CreateNew />
-        {/* yaha par playlist aayengi */}
         {movies}
       </Stack>
     </Stack>

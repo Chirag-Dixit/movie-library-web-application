@@ -1,7 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { database } from "../firebase";
 
-export const addNewPlaylist = async (userId, playlistTitle) => {
+export const addNewPlaylist = async (userId, playlistTitle, checked) => {
   const userPlaylistsRef = doc(
     database,
     `Users/${userId}/Playlists/${playlistTitle}`
@@ -9,6 +9,7 @@ export const addNewPlaylist = async (userId, playlistTitle) => {
 
   const newPlaylist = {
     Title: playlistTitle,
+    private: checked
   };
 
   await setDoc(userPlaylistsRef, newPlaylist);

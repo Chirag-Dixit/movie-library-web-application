@@ -7,7 +7,8 @@ import addMovieToPlaylist from "../utils/addMovieToPlaylist";
 import { setPopup } from "../redux";
 
 const SearchResult = (props) => {
-  const { showPopup, setPopup, listItems, parentId, movieData, currentPage } = props;
+  const { showPopup, setPopup, listItems, parentId, movieData, currentPage } =
+    props;
   const [temp, setTemp] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,7 +50,6 @@ const SearchResult = (props) => {
         <Button
           variant="outlined"
           sx={{
-            // border: 'none',
             margin: "10px",
             cursor: "pointer",
             color: "black",
@@ -66,23 +66,33 @@ const SearchResult = (props) => {
   });
 
   return (
-    <Stack
-      direction={"row"}
-      sx={{
-        width: "fit-content",
-        padding: "10px",
-        display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        alignItems: "center",
-        // columnGap: '50px',
-        gap: "30px",
-      }}
-    >
-      {loading ? <Loading /> : moviesList}
-      <div className={`App`}>
-        {showPopup && <Popup items={playlistNames} closePopup={togglePopup} />}
-      </div>
-    </Stack>
+    <>
+      {temp === undefined ? (
+        <Typography variant="h4" textAlign={'left'}>
+          No Results found, Please type a valid word. The Search will not work
+          for single letters!
+        </Typography>
+      ) : (
+        <Stack
+          direction={"row"}
+          sx={{
+            width: "fit-content",
+            padding: "10px",
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            alignItems: "center",
+            gap: "30px",
+          }}
+        >
+          {loading ? <Loading /> : moviesList}
+          <div className={`App`}>
+            {showPopup && (
+              <Popup items={playlistNames} closePopup={togglePopup} />
+            )}
+          </div>
+        </Stack>
+      )}
+    </>
   );
 };
 
@@ -95,9 +105,7 @@ const Popup = ({ closePopup, items }) => {
     <div className="popup">
       <div className="popup-content">
         <Typography variant="h6">Playlists:</Typography>
-        {/* <h2>Popup Component</h2> */}
         <div>{items}</div>
-        {/* stack of names of playlist */}
         <Button
           onClick={handleClick}
           sx={{
@@ -119,7 +127,7 @@ const mapStateToProps = (state) => {
     parentId: state.setId.parentId,
     showPopup: state.popup.showPopup,
     movieData: state.movieData.data,
-    currentPage: state.pageNumber.currentPage
+    currentPage: state.pageNumber.currentPage,
   };
 };
 

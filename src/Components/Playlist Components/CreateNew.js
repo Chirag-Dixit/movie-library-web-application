@@ -1,8 +1,14 @@
-import { Button, Card, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { addDoc, collection } from "firebase/firestore";
-import { database } from "../../firebase";
 import { connect } from "react-redux";
 import { addNewPlaylist } from "../../utils/addNewPlaylist";
 import { updateListItems } from "../../redux";
@@ -10,12 +16,16 @@ import { updateListItems } from "../../redux";
 const CreateNew = (props) => {
   const { parentId, playlistId, updateListItems } = props;
   const [playlistTitle, setPlaylistTitle] = useState("");
-  // const value = collection(database, "Users", parentId, "Playlists");
   const [clicked, setClicked] = useState(false);
+  const [checked, setChecked] = useState(false)
+
+  const handleCheckChange = () => {
+    setChecked(!checked)
+  }
 
   const handleSubmit = () => {
     if (playlistTitle.trim()) {
-      addNewPlaylist(parentId, playlistTitle);
+      addNewPlaylist(parentId, playlistTitle, checked);
       setPlaylistTitle("");
       setClicked(!clicked);
       updateListItems({
@@ -33,25 +43,14 @@ const CreateNew = (props) => {
   return (
     <div>
       {clicked ? (
-        // <Stack
-        //   spacing={3}
-        //   sx={{
-        //     minHeight: "232px",
-        //     minWidth: "200px",
-        //     border: "1px solid gainsboro",
-        //     alignContent: "center",
-        //     textAlign: "center",
-        //     padding: "8px",
-        //   }}
-        // >
-        //   <TextField
-        //     value={playlistTitle}
-        //     onChange={(e) => setPlaylistTitle(e.target.value)}
-        //   />
-        //   <Button onClick={handleSubmit}>Make new Playlist</Button>
-        //   <Button onClick={handleClick}>Cancel</Button>
-        // </Stack>
-        <PlaylistPopup playlistTitle={playlistTitle} handleClick={handleClick} handleSubmit={handleSubmit} setPlaylistTitle={setPlaylistTitle}/>
+        <PlaylistPopup
+          playlistTitle={playlistTitle}
+          handleClick={handleClick}
+          handleSubmit={handleSubmit}
+          setPlaylistTitle={setPlaylistTitle}
+          checked={checked}
+          handleCheckChange={handleCheckChange}
+        />
       ) : (
         <Button
           sx={{
@@ -75,11 +74,21 @@ const CreateNew = (props) => {
   );
 };
 
-const PlaylistPopup = ({ playlistTitle, handleClick, handleSubmit, setPlaylistTitle }) => {
+export const PlaylistPopup = ({
+  playlistTitle,
+  handleClick,
+  handleSubmit,
+  setPlaylistTitle,
+  checked,
+  handleCheckChange
+}) => {
   return (
-    <div className="popup" style={{
-      padding: '10px',
-    }}>
+    <div
+      className="popup"
+      style={{
+        padding: "10px",
+      }}
+    >
       <Stack
         spacing={3}
         sx={{
@@ -89,7 +98,7 @@ const PlaylistPopup = ({ playlistTitle, handleClick, handleSubmit, setPlaylistTi
           alignContent: "center",
           textAlign: "center",
           padding: "16px",
-          height: '20px'
+          height: "20px",
         }}
         className="popup-content"
       >
@@ -98,8 +107,18 @@ const PlaylistPopup = ({ playlistTitle, handleClick, handleSubmit, setPlaylistTi
           onChange={(e) => setPlaylistTitle(e.target.value)}
           placeholder="Enter playlist name..."
         />
-        <Button variant="outlined" onClick={handleSubmit}>Make new Playlist</Button>
-        <Button variant="outlined" onClick={handleClick}>Cancel</Button>
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox checked={checked} onChange={handleCheckChange}/>}
+            label="Private"
+          />
+        </FormGroup>
+        <Button variant="outlined" onClick={handleSubmit}>
+          Make new Playlist
+        </Button>
+        <Button variant="outlined" onClick={handleClick}>
+          Cancel
+        </Button>
       </Stack>
     </div>
   );

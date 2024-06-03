@@ -17,8 +17,11 @@ import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { connect } from "react-redux";
+import { login } from "../../redux";
 
-const SignUp = () => {
+const SignUp = (props) => {
+  const {login} = props
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -34,13 +37,15 @@ const SignUp = () => {
       await updateProfile(auth.currentUser, { displayName: username });
       console.log(data.user.displayName);
       const displayName = data.user.displayName;
+      const emailAdd = data.user.email
       console.log(displayName);
       const userRef = await addDoc(value, { Username: displayName });
       const playlistsRef = doc(collection(userRef, "Playlists"));
       const watchlistsRef = doc(collection(userRef, "Watchlist"));
       await setDoc(playlistsRef, {});
       await setDoc(watchlistsRef, {});
-      navigate("/");
+      login({ displayName, emailAdd });
+      navigate("/homepage");
     } catch (e) {
       setError(true);
     }
@@ -165,4 +170,10 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = dispatch =>{
+  return{
+    login: (data) => dispatch(login(data)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignUp);

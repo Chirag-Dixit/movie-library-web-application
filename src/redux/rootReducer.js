@@ -6,6 +6,7 @@ import listItemReducer from './function/funcReducer'
 import popupReducer from './popup/popupReducer'
 import movieDataReducer from "./movieData/movieDataReducer";
 import pageReducer from "./pageNumber/pageReducer";
+import publicPlaylistReducer from "./publicPlaylists/publicPlaylistReducer";
 
 const rootReducer = combineReducers({
     login: loginReducer, 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     listItem: listItemReducer,
     popup: popupReducer,
     movieData: movieDataReducer,
-    pageNumber: pageReducer
+    pageNumber: pageReducer,
+    publicPlaylist: publicPlaylistReducer
 })
 
 export default rootReducer

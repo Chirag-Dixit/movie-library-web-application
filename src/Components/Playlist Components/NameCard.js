@@ -2,7 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setPlaylist } from "../../redux/collectionIDs/setIdAction";
 import { connect } from "react-redux";
-import LayersIcon from '@mui/icons-material/Layers';
+import LayersIcon from "@mui/icons-material/Layers";
+import LockIcon from "@mui/icons-material/Lock";
+import { Tooltip } from "@mui/material";
 
 const NameCard = (props) => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const NameCard = (props) => {
     const obj = {
       name: data?.Title,
       id: data?.Title,
+      userId: data?.userId
     };
     setPlaylist(obj);
     navigate(`/playlist/${data?.Title}`);
@@ -30,17 +33,30 @@ const NameCard = (props) => {
             display: "flex",
             justifyContent: "center",
             cursor: "pointer",
-            backgroundColor: 'whitesmoke',
+            backgroundColor: "whitesmoke",
           }}
           onClick={handleClick}
         >
+          {data?.private ? (
+            <Tooltip title="Private">
+              <LockIcon
+                sx={{
+                  position: "relative",
+                  bottom: "90px",
+                  left: "130px",
+                }}
+              />
+            </Tooltip>
+          ) : (
+            ""
+          )}
           <Link
             style={{
               textDecoration: "none",
               color: "black",
             }}
           >
-            <LayersIcon fontSize="large"/>
+            <LayersIcon fontSize="large" />
             <h2>{data?.Title}</h2>
           </Link>
         </button>

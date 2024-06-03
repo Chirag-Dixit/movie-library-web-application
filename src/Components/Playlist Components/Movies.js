@@ -6,17 +6,20 @@ import { Stack } from "@mui/material";
 import { connect } from "react-redux";
 
 const Movies = (props) => {
-  const { parentId, playlistId, playlistName } = props;
+  const { parentId, playlistId, playlistName, userId } = props;
   console.log(playlistId);
+  const pId = userId == undefined? parentId : userId
   const value = collection(
     database,
     "Users",
-    parentId,
+    pId,
     "Playlists",
     playlistId,
     "Movies"
   );
   const [val, setVal] = useState([]);
+
+  console.log(pId)
 
   useEffect(() => {
     const getData = async () => {
@@ -66,6 +69,7 @@ const mapStateToProps = (state) => {
     parentId: state.setId.parentId,
     playlistId: state.setId.playlistId,
     playlistName: state.setId.playlistName,
+    userId: state.setId.userId
   };
 };
 

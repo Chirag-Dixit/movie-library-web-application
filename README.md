@@ -17,6 +17,10 @@ Pagination has also been implemented incase the movie you are searching for does
 
 Login along with signup capabilities are implemented to provide the user with a sense of belonging and create their own private space to enjoy movies.
 
+![image](./src/images/Screenshot_publicPlaylist.png)
+
+Make public and private playlists and also check out public playlists from users across the platform.
+
 # Technology Stack
 
 | Technology    | Description                                                                                      | Usage in Project                                                                                   |

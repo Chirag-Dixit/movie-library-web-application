@@ -5,7 +5,6 @@ const Loading = () => {
   return (
     <Stack>
       <CircularProgress size={50} sx={{ my: 1 }}/>
-      <Typography color='text.secondary' sx={{ mb: 3 }}>Loading</Typography>
     </Stack>
   )
 }

@@ -1,3 +1,4 @@
+export { setPublicPlaylist } from "./publicPlaylists/publicPlaylistAction";
 export { setListItems, updateListItems } from "./function/funcAction";
 export { setParent, setPlaylist } from "./collectionIDs/setIdAction";
 export { login } from "./login/loginAction";

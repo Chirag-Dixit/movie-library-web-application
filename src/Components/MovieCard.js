@@ -2,17 +2,14 @@ import {
   Button,
   Card,
   CardActions,
-  CardContent,
   CardHeader,
   CardMedia,
   Tooltip,
-  Typography,
   tooltipClasses,
 } from "@mui/material";
 import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import AddIcon from "@mui/icons-material/Add";
 import { connect } from "react-redux";
 import { setMovieData, setPopup } from "../redux";
@@ -24,8 +21,6 @@ const MovieCard = (props) => {
     setPopup,
     setMovieData,
     parentId,
-    movieData,
-    inWatchlist,
     inPlaylist,
   } = props;
   const obj = {

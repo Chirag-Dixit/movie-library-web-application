@@ -1,20 +1,47 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-import Navbar from "./Navbar";
-import SearchResult from "./SearchResult";
 import UserList from "./UserList";
 import WatchList from "./WatchList";
 import { connect } from "react-redux";
-import { setPopup } from "../redux";
+import { setPopup, updateListItems } from "../redux";
 import addMovieToPlaylist from "../utils/addMovieToPlaylist";
-import LatestMovies from "./LatestMovies";
+import { PlaylistPopup } from "./Playlist Components/CreateNew";
+import { addNewPlaylist } from "../utils/addNewPlaylist";
+import PublicPlaylists from "./PublicPlaylists";
 
 const HomePage = (props) => {
   //OMDb API: https://www.omdbapi.com/?i=tt3896198&apikey=790948c6
   //https://www.omdbapi.com/?s=[movieName]&apikey=790948c6
 
-  const { showPopup, setPopup, listItems, parentId, movieData, userData } =
-    props;
+  const {
+    showPopup,
+    setPopup,
+    listItems,
+    parentId,
+    movieData,
+    userData,
+    updateListItems,
+  } = props;
+  const [clicked, setClicked] = useState(false);
+  const [playlistTitle, setPlaylistTitle] = useState("");
+
+  const handleSubmit = () => {
+    if (playlistTitle.trim()) {
+      addNewPlaylist(parentId, playlistTitle);
+      setPlaylistTitle("");
+      setClicked(!clicked);
+      updateListItems({
+        Title: playlistTitle,
+      });
+    } else {
+      alert("please enter a playlist title.");
+    }
+  };
+
+  const handlePlaylistClick = () => {
+    console.log(clicked)
+    setClicked(!clicked);
+  };
 
   const togglePopup = () => {
     setPopup();
@@ -56,35 +83,65 @@ const HomePage = (props) => {
 
       <WatchList />
 
+      <PublicPlaylists />
+
       <div className={`App`}>
-        {showPopup && <Popup items={playlistNames} closePopup={togglePopup} />}
+        {showPopup && (
+          <Popup
+            items={playlistNames}
+            closePopup={togglePopup}
+            handleSubmit={handleSubmit}
+            handlePlaylistClick={handlePlaylistClick}
+            playlistTitle={playlistTitle}
+            setPlaylistTitle={setPlaylistTitle}
+            clicked={clicked}
+          />
+        )}
       </div>
     </Stack>
   );
 };
 
-const Popup = ({ closePopup, items }) => {
+const Popup = ({
+  clicked, 
+  closePopup,
+  items,
+  handleSubmit,
+  handlePlaylistClick,
+  playlistTitle,
+  setPlaylistTitle,
+}) => {
   const handleClick = () => {
     closePopup();
   };
 
   return (
     <div className="popup">
-      <div className="popup-content">
-        <Typography variant="h6">Playlists:</Typography>
-        {/* <h2>Popup Component</h2> */}
-        <div>{items}</div>
-        {/* stack of names of playlist */}
-        <Button
-          onClick={handleClick}
-          sx={{
-            marginTop: "16px",
-          }}
-          variant="contained"
-        >
-          Cancel
-        </Button>
-      </div>
+      {clicked ? (
+        <PlaylistPopup
+          playlistTitle={playlistTitle}
+          handleClick={handlePlaylistClick}
+          handleSubmit={handleSubmit}
+          setPlaylistTitle={setPlaylistTitle}
+        />
+      ) : (
+        <Stack spacing={2} className="popup-content">
+          <Typography variant="h6">Playlists:</Typography>
+          <Button variant="contained" onClick={handlePlaylistClick}>
+            Create Playlist
+          </Button>
+          <div>{items}</div>
+          <Button
+            onClick={handleClick}
+            sx={{
+              marginTop: "16px",
+            }}
+            variant="contained"
+          >
+            Cancel
+          </Button>
+        </Stack>
+      )}
     </div>
   );
 };
@@ -102,6 +159,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setPopup: () => dispatch(setPopup()),
+    updateListItems: (data) => dispatch(updateListItems(data)),
   };
 };
 

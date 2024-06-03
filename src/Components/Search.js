@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import SearchResult from "./SearchResult";
 import { connect } from "react-redux";
 import { setPageNumber } from "../redux";

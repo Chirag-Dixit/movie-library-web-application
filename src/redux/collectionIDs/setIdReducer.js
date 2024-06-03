@@ -3,7 +3,8 @@ import { SET_PLAYLIST_ID, SET_USER_ID } from "./setIdType"
 const initialState = {
     parentId: '',
     playlistId: '', 
-    playlistName: ''
+    playlistName: '',
+    userId: ''
 }
 
 const setIdReducer = (state=initialState, action) =>{
@@ -16,7 +17,8 @@ const setIdReducer = (state=initialState, action) =>{
         case SET_PLAYLIST_ID: return{
             ...state,
             playlistId: action.payload.id,
-            playlistName: action.payload.name
+            playlistName: action.payload.name,
+            userId: action.payload.userId
         }
 
         default: return state
