@@ -68,7 +68,7 @@ const SearchResult = (props) => {
   return (
     <>
       {temp === undefined ? (
-        <Typography variant="h4" textAlign={'left'}>
+        <Typography variant="h4" textAlign={"left"}>
           No movie found. Please Enter a valid movie name.
         </Typography>
       ) : (
@@ -81,6 +81,13 @@ const SearchResult = (props) => {
             gridTemplateColumns: "repeat(5, 1fr)",
             alignItems: "center",
             gap: "30px",
+            "@media (max-width: 768px)": {
+              gridTemplateColumns: "repeat(2, 1fr)",
+            },
+            "@media (max-width: 480px)": {
+              gridTemplateColumns: "1fr",
+              gap: "15px", 
+            },
           }}
         >
           {loading ? <Loading /> : moviesList}
