@@ -69,8 +69,7 @@ const SearchResult = (props) => {
     <>
       {temp === undefined ? (
         <Typography variant="h4" textAlign={'left'}>
-          No Results found, Please type a valid word. The Search will not work
-          for single letters!
+          No movie found. Please Enter a valid movie name.
         </Typography>
       ) : (
         <Stack
