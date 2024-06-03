@@ -3,12 +3,13 @@ import rootReducer from "./rootReducer";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import storageSession from 'redux-persist/lib/storage/session';
+import localStorage from "redux-persist/es/storage";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistConfig = {
   key: "root",
-  storage: storageSession,
+  storage: localStorage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
