@@ -4,7 +4,7 @@ import { setPlaylist } from "../../redux/collectionIDs/setIdAction";
 import { connect } from "react-redux";
 import LayersIcon from "@mui/icons-material/Layers";
 import LockIcon from "@mui/icons-material/Lock";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 
 const NameCard = (props) => {
   const navigate = useNavigate();
@@ -19,6 +19,8 @@ const NameCard = (props) => {
     setPlaylist(obj);
     navigate(`/playlist/${data?.Title}`);
   };
+
+  console.log(data?.username)
 
   return (
     <>
@@ -58,6 +60,7 @@ const NameCard = (props) => {
           >
             <LayersIcon fontSize="large" />
             <h2>{data?.Title}</h2>
+            <Typography variant="subtitle">by {data?.username}</Typography>
           </Link>
         </button>
       )}
