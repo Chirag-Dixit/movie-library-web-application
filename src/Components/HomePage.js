@@ -39,7 +39,6 @@ const HomePage = (props) => {
   };
 
   const handlePlaylistClick = () => {
-    console.log(clicked)
     setClicked(!clicked);
   };
 
@@ -61,7 +60,6 @@ const HomePage = (props) => {
         <Button
           variant="outlined"
           sx={{
-            // border: 'none',
             margin: "10px",
             cursor: "pointer",
             color: "black",

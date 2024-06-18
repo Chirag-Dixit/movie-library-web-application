@@ -35,10 +35,8 @@ const SignUp = (props) => {
       e.preventDefault();
       let data = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(auth.currentUser, { displayName: username });
-      console.log(data.user.displayName);
       const displayName = data.user.displayName;
       const emailAdd = data.user.email
-      console.log(displayName);
       const userRef = await addDoc(value, { Username: displayName });
       const playlistsRef = doc(collection(userRef, "Playlists"));
       const watchlistsRef = doc(collection(userRef, "Watchlist"));

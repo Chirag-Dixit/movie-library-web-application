@@ -24,7 +24,6 @@ const PlayList = (props) => {
     getData();
   }, []);
 
-  // console.log(val)
   useEffect(() => {
     setListItems(val);
   }, [val]);

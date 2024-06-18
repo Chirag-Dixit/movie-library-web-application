@@ -32,14 +32,12 @@ const SearchResult = (props) => {
       );
       const movies = await data.json();
       setTemp(movies.Search);
-      console.log(movies.Search);
       setLoading(false);
     };
 
     getMovieData();
   }, [props.search, currentPage]);
 
-  console.log(temp);
   const moviesList = temp?.map((element, index) => {
     return <MovieCard data={element} key={index} />;
   });

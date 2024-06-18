@@ -8,7 +8,6 @@ import Loading from "../Loading"
 
 const Movies = (props) => {
   const { parentId, playlistId, playlistName, userId } = props;
-  console.log(playlistId);
   const pId = userId == undefined? parentId : userId
   const value = collection(
     database,
@@ -20,8 +19,6 @@ const Movies = (props) => {
   );
   const [val, setVal] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log(pId)
 
   useEffect(() => {
     const getData = async () => {

@@ -11,14 +11,11 @@ const LatestMovies = () => {
         "https://www.omdbapi.com/?apikey=790948c6&s=2023&type=movie"
       );
       const data = await response.json();
-      console.log(data);
       setVal(data.Search);
     };
 
     getData();
   }, []);
-
-  console.log(val);
 
   const list = val?.map((element, index) => {
     return <MovieCard data={element} key={index} />;

@@ -17,8 +17,6 @@ const Search = (props) => {
     }
   }
 
-  console.log(currentPage)
-
   return (
     <Stack margin={2} spacing={2}>
       <Stack direction={'row'} justifyContent={'space-between'}>

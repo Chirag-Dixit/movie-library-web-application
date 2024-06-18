@@ -3,21 +3,21 @@
 Welcome to the web based library for keeping track of movies as per your convenience. Add movies to your watchlist, create playlists and search any movie you want, anywhere, anytime along with a privatized and personalized user experience.
 
 ## User Interface and Features
-![image](./src/images/Screenshot_homepage.png)
+![image](./public/images/Screenshot_homepage.png)
 
 User can create playlist of any name and add movies of his choice to the playlist.
 
-![image](./src/images/Screenshot_search.png)
+![image](./public/images/Screenshot_search.png)
 
 Search is made easy with a searchbar provided in the navbar. Simply type in the movie name and movies will be resulted based on the best match.
 
 Pagination has also been implemented incase the movie you are searching for does not appear in the initial search. Simply click on next or previous button as per your need.
 
-![image](./src/images/Screenshot_login.png)
+![image](./public/images/Screenshot_login.png)
 
 Login along with signup capabilities are implemented to provide the user with a sense of belonging and create their own private space to enjoy movies.
 
-![image](./src/images/Screenshot_publicPlaylist.png)
+![image](./public/images/Screenshot_publicPlaylist.png)
 
 Make public and private playlists and also check out public playlists from users across the platform.
 

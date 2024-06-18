@@ -20,8 +20,6 @@ const NameCard = (props) => {
     navigate(`/playlist/${data?.Title}`);
   };
 
-  console.log(data?.username)
-
   return (
     <>
       {data?.Title && (

@@ -15,11 +15,10 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth, database } from "../../firebase";
-import LoginLeft from "../LoginLeft";
 import { connect } from "react-redux";
 import { login } from "../../redux/login/loginAction";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import Image from '../../images/image2.jpg'
+import Image from '../../image2.jpg'
 
 const Login = (props) => {
   const { login } = props;
@@ -40,7 +39,6 @@ const Login = (props) => {
       
       navigate("/homepage");
     } catch (e) {
-      console.log(e);
       setError(true);
     }
   };
