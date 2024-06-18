@@ -4,6 +4,7 @@ import { database } from "../../firebase";
 import MovieCard from "../MovieCard";
 import { Stack } from "@mui/material";
 import { connect } from "react-redux";
+import Loading from "../Loading"
 
 const Movies = (props) => {
   const { parentId, playlistId, playlistName, userId } = props;
@@ -18,6 +19,7 @@ const Movies = (props) => {
     "Movies"
   );
   const [val, setVal] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   console.log(pId)
 
@@ -25,6 +27,7 @@ const Movies = (props) => {
     const getData = async () => {
       const dbVal = await getDocs(value);
       setVal(dbVal.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
 
     getData();
@@ -35,6 +38,10 @@ const Movies = (props) => {
   });
 
   return (
+    <>
+    
+    {
+      loading?(<Loading />) :(
     <Stack spacing={2} m={5}>
       <h3
         style={{
@@ -60,7 +67,9 @@ const Movies = (props) => {
       >
         {list}
       </Stack>
-    </Stack>
+    </Stack>)
+    }
+    </>
   );
 };
 

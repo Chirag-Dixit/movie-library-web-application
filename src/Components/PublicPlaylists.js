@@ -84,8 +84,6 @@ const PublicPlaylists = (props) => {
       ) : (
         <Stack direction="row" spacing={2} ref={scrollContainerRef}
         sx={{
-          // overflowX: 'hidden',
-          // display: 'flex',
           overflowX: "hidden",
           scrollBehavior: "smooth",
         }}>
