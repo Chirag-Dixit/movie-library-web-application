@@ -58,7 +58,7 @@ const NameCard = (props) => {
           >
             <LayersIcon fontSize="large" />
             <h2>{data?.Title}</h2>
-            <Typography variant="subtitle">by {data?.username}</Typography>
+            <Typography variant="subtitle">{data?.username}</Typography>
           </Link>
         </button>
       )}
